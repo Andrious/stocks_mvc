@@ -23,9 +23,7 @@
 
 import 'package:flutter/material.dart' show runApp;
 
-import 'package:stocks_mvc/src/view.dart' show StocksApp;
-
-import 'package:stocks_mvc/src/view.dart' show App;
+import 'package:stocks_mvc/src/view.dart' show App, StocksApp;
 
 void main() => runApp(MyApp());
 

@@ -1,3 +1,7 @@
+## 1.0.1
+  July 17, 2019
+- import 'package:stocks_mvc/src/view.dart' show App, StocksApp;
+
 ## 1.0.0
  July 17, 2019
 - Initial public commit

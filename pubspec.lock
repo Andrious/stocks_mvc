@@ -220,10 +220,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "1ac09c17d486cc261815f10a3374df9061bcb3ba"
+      resolved-ref: "9d02afd4ddae96a8cae007c32d902dcadc5a9e25"
       url: "git://github.com/AndriousSolutions/mvc_application.git"
     source: git
-    version: "1.0.1"
+    version: "1.0.2"
   mvc_pattern:
     dependency: transitive
     description:
