@@ -21,6 +21,7 @@
 ///
 ///
 
+import 'package:flutter/material.dart';
 import 'package:stocks_mvc/src/model.dart';
 import 'package:stocks_mvc/src/view.dart';
 import 'package:stocks_mvc/src/controller.dart';

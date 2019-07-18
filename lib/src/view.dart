@@ -21,9 +21,7 @@
 ///
 ///
 
-export 'package:flutter/material.dart';
-
-export 'package:mvc_application/view.dart' show App, AppView, StateMVC;
+export 'package:mvc_application/view.dart';
 
 export 'package:stocks_mvc/src/app/view/stocks.dart';
 

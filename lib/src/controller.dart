@@ -21,8 +21,7 @@
 ///
 ///
 
-export 'package:mvc_application/controller.dart'
-    show AppController, ControllerMVC, Prefs;
+export 'package:mvc_application/controller.dart';
 
 export 'package:stocks_mvc/src/app/controller/stocks.dart';
 
