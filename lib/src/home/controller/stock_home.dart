@@ -22,6 +22,8 @@
 ///
 ///
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart' show DragStartBehavior;
+
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 
@@ -40,11 +42,12 @@ class StockHome extends ControllerMVC {
   @override
   void initState() {
     _widget = _Widgets(this);
-    _onTaps = OnTaps();
+    _title = _Titles(this);
+    _onTaps = OnTaps(this);
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _this = null;
     super.dispose();
   }
@@ -64,6 +67,9 @@ class StockHome extends ControllerMVC {
   ];
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  _Titles get title => _title;
+  _Titles _title;
 
   _Widgets get widget => _widget;
   _Widgets _widget;
@@ -199,17 +205,48 @@ class StockHome extends ControllerMVC {
     final RegExp regexp = RegExp(_searchQuery.text, caseSensitive: false);
     return stocks.where((Stock stock) => stock.symbol.contains(regexp));
   }
+
+  void handleStockModeChange(StockMode value) {
+    AppStocks.stockMode = value;
+  }
+}
+
+class _Titles {
+  _Titles(this.con);
+  StockHome con;
+
+  Widget stockList = const Text('Stock List');
+
+  Widget balance = const Text('Account Balance');
+
+  Widget dumpConsole = const Text('Dump App to Console');
+
+  Widget optimistic = const Text('Optimistic');
+
+  Widget pessimistic = const Text('Pessimistic');
+
+  Widget settings = const Text('Settings');
+
+  Widget about = const Text('About');
 }
 
 class _Widgets {
   _Widgets(this.con) {
     listTiles = _ListTiles(con);
     _appBar = _AppBar(con);
+    _drawer = _Drawer(con);
+    _body = _Body(con);
   }
   StockHome con;
   _ListTiles listTiles;
   _AppBar _appBar;
+  _Drawer _drawer;
+  _Body _body;
   _FloatingActionButton _floatingButton;
+
+  Widget get drawer => _drawer.drawer;
+
+  Widget get body => _body.body;
 
   Widget get appBar => _isSearching ? con.buildSearchBar() : con.buildAppBar();
 
@@ -382,10 +419,10 @@ class _ListTiles {
         trailing: Radio<StockMode>(
           value: StockMode.optimistic,
           groupValue: AppStocks.stockMode,
-          onChanged: _handleStockModeChange,
+          onChanged: con.handleStockModeChange,
         ),
         onTap: () {
-          _handleStockModeChange(StockMode.optimistic);
+          con.handleStockModeChange(StockMode.optimistic);
           con.stateMVC.refresh();
         },
       );
@@ -396,10 +433,10 @@ class _ListTiles {
         trailing: Radio<StockMode>(
           value: StockMode.pessimistic,
           groupValue: AppStocks.stockMode,
-          onChanged: _handleStockModeChange,
+          onChanged: con.handleStockModeChange,
         ),
         onTap: () {
-          _handleStockModeChange(StockMode.pessimistic);
+          con.handleStockModeChange(StockMode.pessimistic);
           con.stateMVC.refresh();
         },
       );
@@ -413,22 +450,78 @@ class _ListTiles {
   ListTile get about => ListTile(
         leading: const Icon(Icons.help),
         title: const Text('About'),
-        onTap: () => con.onTap.showAbout(con.context),
+        onTap: () => con.onTap.about(con.context),
       );
 }
 
-void _handleStockModeChange(StockMode value) {
-  AppStocks.stockMode = value;
-}
-
 class OnTaps {
+  OnTaps(this.con);
+  StockHome con;
+
+  GestureTapCallback get dumpConsole => () {
+        try {
+          debugDumpApp();
+          debugDumpRenderTree();
+          debugDumpLayerTree();
+          debugDumpSemanticsTree(DebugSemanticsDumpOrder.traversalOrder);
+        } catch (e, stack) {
+          debugPrint('Exception while dumping app:\n$e\n$stack');
+        }
+      };
+
+  GestureTapCallback get optimistic => () {
+        con.handleStockModeChange(StockMode.optimistic);
+        con.stateMVC.refresh();
+      };
+
+  GestureTapCallback get pessimistic => () {
+        con.handleStockModeChange(StockMode.pessimistic);
+        con.stateMVC.refresh();
+      };
+
   settings(BuildContext context) {
     Navigator.popAndPushNamed(context, '/settings');
   }
 
-  showAbout(BuildContext context) {
+  about(BuildContext context) {
     showAboutDialog(context: context);
   }
+}
+
+class _Drawer {
+  _Drawer(this.con);
+  StockHome con;
+
+  Widget get drawer => Drawer(
+        child: ListView(
+          dragStartBehavior: DragStartBehavior.down,
+          children: <Widget>[
+            const DrawerHeader(child: Center(child: Text('Stocks'))),
+            con.widget.stockList,
+            con.widget.accountBalance,
+            con.widget.dumpConsole,
+            const Divider(),
+            con.widget.optimistic,
+            con.widget.pessimistic,
+            const Divider(),
+            con.widget.settings,
+            con.widget.about,
+          ],
+        ),
+      );
+}
+
+class _Body{
+  _Body(this.con);
+  StockHome con;
+
+  Widget get body => TabBarView(
+    dragStartBehavior: DragStartBehavior.down,
+    children: <Widget>[
+      con.widget.marketTab,
+      con.widget.portfolioTab,
+    ],
+  );
 }
 
 class _NotImplementedDialog extends StatelessWidget {
