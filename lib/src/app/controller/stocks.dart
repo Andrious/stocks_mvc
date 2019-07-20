@@ -40,9 +40,38 @@ class AppStocks extends AppController {
     _state = stateMVC;
     _stocks = StockData();
   }
-
   static AppView _state;
+
+  static StockData get stocks => _stocks;
   static StockData _stocks;
+
+  static ThemeData get theme {
+    switch (stockMode) {
+      case StockMode.optimistic:
+        return ThemeData(
+          brightness: Brightness.light,
+          primarySwatch: Colors.purple,
+        );
+      case StockMode.pessimistic:
+        return ThemeData(
+          brightness: Brightness.dark,
+          accentColor: Colors.redAccent,
+        );
+    }
+    return null;
+  }
+  static set theme(ThemeData v) {
+    _state?.theme = v;
+    _state?.refresh();
+  }
+
+  static StockMode get stockMode => _stockMode;
+  static set stockMode(StockMode v) {
+    _stockMode = v;
+    _state?.theme = theme;
+    _state?.refresh();
+  }
+  static StockMode _stockMode = StockMode.optimistic;
 
   static bool get debugShowGrid => _state?.debugShowMaterialGrid;
   static set debugShowGrid(bool v) {
@@ -92,43 +121,12 @@ class AppStocks extends AppController {
     _state?.refresh();
   }
 
-  static ThemeData get theme {
-    switch (stockMode) {
-      case StockMode.optimistic:
-        return ThemeData(
-          brightness: Brightness.light,
-          primarySwatch: Colors.purple,
-        );
-      case StockMode.pessimistic:
-        return ThemeData(
-          brightness: Brightness.dark,
-          accentColor: Colors.redAccent,
-        );
-    }
-    return null;
-  }
-  static set theme(ThemeData v) {
-    _state?.theme = v;
-    _state?.refresh();
-  }
-
-  static StockMode get stockMode => _stockMode;
-  static set stockMode(StockMode v) {
-    _stockMode = v;
-    _state?.theme = theme;
-    _state?.refresh();
-  }
-  static StockMode _stockMode = StockMode.optimistic;
-
   static BackupMode get backupMode => _backupMode;
   static set backupMode(BackupMode v) {
     _backupMode = v;
     _state?.refresh();
   }
   static BackupMode _backupMode = BackupMode.enabled;
-
-  
-  static StockData get stocks => _stocks;
 
   static final _StocksLocalizationsDelegate localizationsDelegate =
       _StocksLocalizationsDelegate();

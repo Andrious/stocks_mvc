@@ -56,10 +56,6 @@ class StockSettingsState extends State<StockSettings> {
     AppStocks.showSemanticsDebugger = value;
   }
 
-//  void sendUpdates(StockConfiguration value) {
-//    AppStocks.updater(value);
-//  }
-
   Widget buildAppBar(BuildContext context) {
     return AppBar(
       title: const Text('Settings'),
