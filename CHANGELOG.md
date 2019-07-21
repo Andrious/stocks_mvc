@@ -1,3 +1,7 @@
+## 1.1.1
+ July 21, 2019
+- Add mvc_application: ^1.0.3 to pubspec.yaml
+
 ## 1.1.0
  July 20, 2019
 - class _Titles; class _Drawer in controller/stock_home.dart

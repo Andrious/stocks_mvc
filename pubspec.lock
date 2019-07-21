@@ -218,12 +218,10 @@ packages:
   mvc_application:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "9d02afd4ddae96a8cae007c32d902dcadc5a9e25"
-      url: "git://github.com/AndriousSolutions/mvc_application.git"
-    source: git
-    version: "1.0.2"
+      name: mvc_application
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   mvc_pattern:
     dependency: transitive
     description:
