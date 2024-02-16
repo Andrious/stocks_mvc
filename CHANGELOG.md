@@ -1,3 +1,8 @@
+
+## 1.2.0
+ February 16, 2024
+- Commit and Erase from laptop
+
 ## 1.1.1
  July 21, 2019
 - Add mvc_application: ^1.0.3 to pubspec.yaml

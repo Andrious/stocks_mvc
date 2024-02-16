@@ -25,9 +25,42 @@ class StockHomeState extends StateMVC<StockHome> {
   }
   cont.StockHome con;
 
+  // _degree01, _degree02 & _degree03 are also available.
   @override
   Widget build(BuildContext context) {
-    return _degree01;
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        drawerDragStartBehavior: DragStartBehavior.down,
+        key: con.scaffoldKey,
+        appBar: con.widget.appBar,
+        floatingActionButton: con.widget.floatingButton.createCompany,
+        drawer: Drawer(
+          child: ListView(
+            dragStartBehavior: DragStartBehavior.down,
+            children: <Widget>[
+              const DrawerHeader(child: Center(child: Text('Stocks'))),
+              con.widget.stockList,
+              con.widget.accountBalance,
+              con.widget.dumpConsole,
+              const Divider(),
+              con.widget.optimistic,
+              con.widget.pessimistic,
+              const Divider(),
+              con.widget.settings,
+              con.widget.about,
+            ],
+          ),
+        ),
+        body: TabBarView(
+          dragStartBehavior: DragStartBehavior.down,
+          children: <Widget>[
+            con.widget.marketTab,
+            con.widget.portfolioTab,
+          ],
+        ),
+      ),
+    );
   }
 
   Widget get _degree01 => DefaultTabController(
